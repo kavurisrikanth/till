@@ -21,7 +21,23 @@ public class Order {
         totalPrice += item.getPrice();
     }
 
-    public void checkout() {
-        System.out.println("Total: " + totalPrice);
+    public void addToPrice(double some) {
+        totalPrice += some;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void addToDiscount(double some) {
+        discount += some;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public List<Pizza> getItems() {
+        return items;
     }
 }
