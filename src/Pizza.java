@@ -1,18 +1,12 @@
 public class Pizza {
-    private enum PizzaSize {
-        SMALL,
-        MEDIUM,
-        LARGE
-    }
-
     private PizzaSize size;
     private double price;
     private String description;
 
-    public Pizza(PizzaSize size, String description, double price) {
+    public Pizza(PizzaSize size) {
         this.size = size;
-        this.description = description;
-        this.price = price;
+        this.price = PizzaDetails.getPriceBySize(size);
+        this.description = PizzaDetails.getDescriptionBySize(size);
     }
 
     public double getPrice() {
@@ -25,5 +19,13 @@ public class Pizza {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
