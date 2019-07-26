@@ -1,24 +1,4 @@
 public class PizzaDetails {
-//    public static void setBySize(PizzaSize size) {
-//        switch (size) {
-//            case SMALL:
-//                pizza.setPrice(269.99);
-//                pizza.setDescription("10” pizza for one person");
-//                break;
-//            case MEDIUM:
-//                pizza.setPrice(322.99);
-//                pizza.setDescription("12” pizza for two people");
-//            case LARGE:
-//                pizza.setPrice(394.99);
-//                pizza.setDescription("15” pizza for four people");
-//                break;
-//            default:
-//                pizza.setPrice(269.99);
-//                pizza.setDescription("10” pizza for one person");
-//                break;
-//        }
-//    }
-    
     public static double getPriceBySize(PizzaSize size) {
         switch (size) {
             case SMALL:

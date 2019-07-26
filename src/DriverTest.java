@@ -61,4 +61,58 @@ public class DriverTest {
         assertEquals(269.99 + 322.99 + 394.99, current.getMostRecentOrder().getTotalPrice());
         assertEquals(0, current.getMostRecentOrder().getDiscount());
     }
+
+    @Test
+    void testInfosysWithRules() {
+        String name = "Infosys";
+        List<PricingRules> rules = addRules(name);
+
+        driver.addUser(name, rules);
+        assertNotNull(driver.getUserByName(name));
+
+        List<Pizza> orderItems = new ArrayList<>();
+        orderItems.add(new Pizza(PizzaSize.SMALL));
+        orderItems.add(new Pizza(PizzaSize.SMALL));
+        orderItems.add(new Pizza(PizzaSize.SMALL));
+        orderItems.add(new Pizza(PizzaSize.LARGE));
+
+        driver.placeOrder(name, orderItems);
+        driver.total(name);
+    }
+
+    @Test
+    void testAmazonWithRules() {
+        String name = "Amazon";
+        List<PricingRules> rules = addRules(name);
+
+        driver.addUser(name, rules);
+        assertNotNull(driver.getUserByName(name));
+
+        List<Pizza> orderItems = new ArrayList<>();
+        orderItems.add(new Pizza(PizzaSize.MEDIUM));
+        orderItems.add(new Pizza(PizzaSize.MEDIUM));
+        orderItems.add(new Pizza(PizzaSize.MEDIUM));
+        orderItems.add(new Pizza(PizzaSize.LARGE));
+
+        driver.placeOrder(name, orderItems);
+        driver.total(name);
+    }
+
+    private List<PricingRules> addRules(String name) {
+        List<PricingRules> rules = new ArrayList<>();
+        if (name.toLowerCase().equals("infosys")) {
+            rules.add(new XForYRule(3, 2, PizzaSize.SMALL));
+        }
+
+        if (name.toLowerCase().equals("amazon")) {
+            rules.add(new FlatDiscountRule(299.99, PizzaSize.LARGE));
+        }
+
+        if (name.toLowerCase().equals("facebook")) {
+            rules.add(new XForYRule(5, 4, PizzaSize.MEDIUM));
+            rules.add(new FlatDiscountRule(389.99, PizzaSize.LARGE));
+        }
+
+        return rules;
+    }
 }

@@ -1,4 +1,7 @@
-import java.text.DecimalFormat;
+/**
+ * User class
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,25 +13,31 @@ public class User {
             this.order = order;
         }
 
-        double checkout(ArrayList<PricingRules> rules) {
+        void checkout(ArrayList<PricingRules> rules) {
             calculateDiscount(rules);
-            return (order.getTotalPrice() - order.getDiscount());
         }
 
         private void calculateDiscount(ArrayList<PricingRules> rules) {
+            // Validation
             if (rules == null || rules.isEmpty()) return;
+
             for (PricingRules rule: rules) {
+                // Skip irrelevant rules
                 if (!order.getCounts().containsKey(rule.onSize)) continue;
 
                 if (rule instanceof XForYRule) {
                     int numPizzas = order.getCounts().get(rule.onSize);
                     int X = ((XForYRule) rule).getX();
                     int x = numPizzas/X;
-                    if (x == 0) continue;
+                    if (x == 0) continue;   // Skip if at least X pizzas were not ordered.
                     int Y = ((XForYRule) rule).getY();
+
+                    // Calculate discount
                     order.addToDiscount(x * (X - Y) * PizzaDetails.getPriceBySize(rule.onSize));
                 } else if (rule instanceof FlatDiscountRule) {
                     int numPizzas = order.getCounts().get(rule.onSize);
+
+                    // The discount is the difference between the original and new prices.
                     order.addToDiscount(numPizzas * (PizzaDetails.getPriceBySize(rule.onSize) - ((FlatDiscountRule) rule).getNewPrice()));
                 }
             }
@@ -65,8 +74,7 @@ public class User {
         Order order = new Order();
         items.forEach(order::add);
         myCart.addOrder(order);
-        Double finalPrice = myCart.checkout(rules);
-        System.out.println("Total: $" + String.format(finalPrice.toString(), new DecimalFormat("#.##")));
+        myCart.checkout(rules);
         orders.add(order);
     }
 
